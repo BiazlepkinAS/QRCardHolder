@@ -1,10 +1,7 @@
 import UIKit
 
 class QRCodeViewController: UINavigationController {
-<<<<<<< HEAD
-=======
-    
->>>>>>> master
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray5
@@ -13,10 +10,7 @@ class QRCodeViewController: UINavigationController {
         
         
         //MARK:- Views
-<<<<<<< HEAD
-=======
-        
->>>>>>> master
+
         let firstLabel: UILabel = {
             let textLabel = UILabel()
             textLabel.translatesAutoresizingMaskIntoConstraints = false
