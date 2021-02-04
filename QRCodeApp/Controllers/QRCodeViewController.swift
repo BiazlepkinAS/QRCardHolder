@@ -1,16 +1,18 @@
 import UIKit
 
 class QRCodeViewController: UINavigationController {
-
+    
+   
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemGray5
-        
+        view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         
         
         
         //MARK:- Views
-
+        
         let firstLabel: UILabel = {
             let textLabel = UILabel()
             textLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +22,6 @@ class QRCodeViewController: UINavigationController {
         view.addSubview(firstLabel)
         firstLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 70).isActive = true
         firstLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        firstLabel.heightAnchor.constraint(equalToConstant: 40)
         
         let inputTextField: UITextField = {
             let inputTF = UITextField()
@@ -38,6 +39,7 @@ class QRCodeViewController: UINavigationController {
         inputTextField.placeholder = "Enter here your text"
         inputTextField.textColor = .white
         
+        var myString = inputTextField.text
         
         let generateButton: UIView = {
             let buttonGen = UIButton()
@@ -51,13 +53,10 @@ class QRCodeViewController: UINavigationController {
         view.addSubview(generateButton)
         generateButton.topAnchor.constraint(equalTo: inputTextField.bottomAnchor, constant: 10).isActive = true
         generateButton.centerXAnchor.constraint(equalTo: inputTextField.centerXAnchor).isActive = true
-//        generateButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 66).isActive = true
         generateButton.widthAnchor.constraint(equalTo: inputTextField.widthAnchor).isActive = true
         generateButton.heightAnchor.constraint(equalTo: generateButton.heightAnchor).isActive = true
-        
         generateButton.layer.cornerRadius = 15
         generateButton.backgroundColor = .systemOrange
-        
         
         
         let qrCodeImage: UIImageView = {
@@ -65,8 +64,6 @@ class QRCodeViewController: UINavigationController {
             qrImage.translatesAutoresizingMaskIntoConstraints = false
             qrImage.contentMode = .scaleAspectFit
             qrImage.backgroundColor = .black
-            
-            
             
             return qrImage
         }()
@@ -91,6 +88,7 @@ class QRCodeViewController: UINavigationController {
             saveButton.addTarget(self, action: #selector(saveQRCode), for: .touchUpInside)
             saveButton.layer.cornerRadius = 15
             
+            
             return saveButton
         }()
         view.addSubview(saveQRCodeImageButton)
@@ -99,17 +97,57 @@ class QRCodeViewController: UINavigationController {
         saveQRCodeImageButton.widthAnchor.constraint(equalTo: generateButton.widthAnchor).isActive = true
         saveQRCodeImageButton.heightAnchor.constraint(equalTo: generateButton.heightAnchor).isActive = true
         
-        
     }
+    
+    
+    
     
     //MARK:-  Functions
     
     @objc func generateQRCode() {
         
+        
+
+       
+        let myStringText = inputTextField.text {
+        
+            let data = myString.data(using: .ascii, allowLossyConversation: false)
+            let filter = CIFilter(name: "CIQRCodeGenerator")
+            filter?.setValue(data, forKey: "InputMassage")
+            
+            let ciImage = filter?.outputImage
+            
+            let transform = CGAffineTransform(scaleX: 10, y: 10)
+            
+            let transformImage = ciImage.applaing(transform)
+            
+            let image = UIImage(ciImage: transformImage!)
+            qrCodeImage.image = image
+            
+            saveQRCodeImageButton.isEnable = true
+            
+
+        }
+    
     }
     
     @objc func saveQRCode() {
         
+        let layer = UIApplication.shared.keyWindow!.layer
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, scale)
+        
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let screenShot = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        UIImageWriteToSavedPhotosAlbum(screenShot!, nil, nil, nil)
+        
     }
     
+   
+
+    
+
 }
