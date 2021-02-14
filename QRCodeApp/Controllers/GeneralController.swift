@@ -6,7 +6,7 @@ class GeneralController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        super.view.backgroundColor = .systemPink
+        super.view.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         delegate = self
         
     }
@@ -15,15 +15,15 @@ class GeneralController: UITabBarController, UITabBarControllerDelegate {
         super.viewWillAppear(animated)
         
         let qrCVC = QRCodeViewController()
-        let mcVC = MyCArdsController()
+        let settingsVC = SettingsController()
         
         let icon1 = UITabBarItem(title: "QRCode", image: UIImage(named: "qr"), selectedImage: UIImage(named: "qr"))
         let icon2 = UITabBarItem(title: "MyCards", image: UIImage(named: "cards"), selectedImage: UIImage(named: "cards"))
         
         qrCVC.tabBarItem = icon1
-        mcVC.tabBarItem = icon2
+        settingsVC.tabBarItem = icon2
         
-        let controllers = [qrCVC, mcVC]
+        let controllers = [qrCVC, settingsVC]
         
         self.viewControllers = controllers
         self.selectedIndex = 0
